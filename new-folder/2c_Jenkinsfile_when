@@ -2,23 +2,24 @@
 The when directive allows the Pipeline to determine whether the stage should be executed depending on the given condition.
 */
 pipeline {
-    agent any
+    ageny any
     environment {
-        SDLC_ENV = 'prod'
+        SDLC_ENV = 'dev'
     }
     stages {
-        stage('Example Build') {
+        stage ('build') {
             steps {
-                echo 'Hello World'
+              sh 'echo "hello im aatish"'                
             }
         }
-        stage('Example Deploy') {
-            when {
-                environment name: 'SDLC_ENV', value: 'dev'
-            }
+        stage ('test') {
             steps {
-                echo 'Deploying Code'
+                sh 'hello'
+                when {
+                    environment name: SDLC_ENV value: 'dev'
+                }
             }
         }
     }
+    
 }
