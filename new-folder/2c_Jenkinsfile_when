@@ -2,7 +2,7 @@
 The when directive allows the Pipeline to determine whether the stage should be executed depending on the given condition.
 */
 pipeline {
-    ageny any
+    agent any
     environment {
         SDLC_ENV = 'dev'
     }
