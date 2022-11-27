@@ -5,20 +5,45 @@ pipeline {
     agent any
     environment {
         SDLC_ENV = 'dev'
+        SDLC_ENV1 = 'prod'
+        SDLC_ENV2 = 'qa'
     }
-    stages {
-        stage('Example Build') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-        stage('Example Deploy') {
+      stages {
+        stage ('build stages') {
             when {
                 environment name: 'SDLC_ENV', value: 'dev'
             }
             steps {
-                echo 'Deploying Code'
+                 echo " run the dev stages"
+                 echo " ${env.BUILD_ID}"
+                 echo " ${env.STAGE_NAME}"
             }
+            
         }
-    }
-}
+        
+        stage ('build second stges') {
+                when {
+                    environment name: 'SDLC_ENV1', value: 'prod'
+               }
+               steps {
+                   echo " run the dev stages"
+                   echo " ${env.BUILD_ID}"
+                   echo " ${env.STAGE_NAME}"
+               }
+            }
+        stage ('build stages thired') {
+            when {
+                environment name: 'SDLC_ENV', value: 'qa'
+            }
+            steps {
+                  echo " run the dev stages"
+                  echo " ${env.BUILD_ID}"
+                  echo " ${env.STAGE_NAME}"
+            }
+            
+        } 
+        }
+
+      }
+    
+
