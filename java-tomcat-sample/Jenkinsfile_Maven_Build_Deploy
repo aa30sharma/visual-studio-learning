@@ -1,0 +1,62 @@
+/*
+- This Jenkinsfile will create a maven build, archive the artifacts, and use Deploy to Container Plugin to deploy artifacts on Webserver as per SDLC Environment.
+Validate details in the Jenkinsfile for : Webserver Path,Credentials ID.
+Make sure below Apache Tomcate Web Servers are already setup for SDLC Environments.
+*/
+
+pipeline {
+    agent any
+    tools {
+        maven 'local maven'
+    }
+    parameters {
+        string(name: 'SDLC_ENV', defaultValue: '', description: 'Enter SDLC Environment')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                dir("${env.WORKSPACE}/java-tomcat-sample"){
+                    sh "sed -i 's/SDLC_ENV/${params.SDLC_ENV}/g' ~/java-tomcat-sample/src/main/java/dao/GetDao.java"
+                    sh 'mvn clean install -f pom.xml' 
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                echo "${params.SDLC_ENV} is value retrieved!"
+            }
+        }
+        stage('DeployToDev') {
+            when {
+                environment name: 'SDLC_ENV', value: 'dev'
+            }
+            steps {
+                deploy adapters: [tomcat9(credentialsId: '12345', path: '', url: 'http://172.31.94.200:8080/')], contextPath: 'dev-aatish', war: '**/*.war'
+            }
+        }
+        stage('DeployToQa') {
+            when {
+                environment name: 'SDLC_ENV', value: 'qa'
+            }
+            steps {
+                deploy adapters: [tomcat9(credentialsId: '12345', path: '', url: 'http://172.31.94.200:8080/')], contextPath: 'qa-aatish', war: '**/*.war'
+            }
+        }
+        stage('DeployToProd') {
+            when {
+                environment name: 'SDLC_ENV', value: 'prod'
+            }
+            steps {
+                deploy adapters: [tomcat9(credentialsId: '12345', path: '', url: 'http://172.31.94.200:8080/')], contextPath: 'prod-aatish', war: '**/*.war'
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'java-tomcat-sample/target/*.war', fingerprint: true
+        }
+    }
+}
