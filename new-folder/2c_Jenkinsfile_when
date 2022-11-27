@@ -4,22 +4,46 @@ The when directive allows the Pipeline to determine whether the stage should be 
 pipeline {
     agent any
     environment {
-        SDLC_ENV = 'prod'
+        SDLC_ENV = 'dev'
+        SDLC_ENV1 = 'prod'
+        SDLC_ENV2 = 'qa'
     }
-    stages {
-        stage ('build') {
-            steps {
-              sh 'echo "hello im aatish"'                
-            }
-        }
-        stage ('test') {
+      stages {
+        stage ('build stages') {
             when {
-                    environment name: 'SDLC_ENV', value: 'dev'
-                }
-                 steps {
-                sh 'printenv'
+                environment name: 'SDLC_ENV', value: 'dev'
             }
+            steps {
+                sh 'echo " run the dev stages"'
+                sh 'echo " ${env.BUILD_ID}"'
+                sh 'echo " ${env.STAGE_NAME}"'
+            }
+            
         }
-    }
+        
+        stage ('build second stges') {
+                when {
+                    environment name: 'SDLC_ENV1', value: 'prod'
+               }
+               steps {
+                  sh 'echo " run the dev stages"'
+                  sh 'echo " ${env.BUILD_ID}"'
+                  sh 'echo " ${env.STAGE_NAME}"'
+               }
+            }
+        stage ('build stages') {
+            when {
+                environment name: 'SDLC_ENV', value: 'qa'
+            }
+            steps {
+                sh 'echo " run the dev stages"'
+                sh 'echo " ${env.BUILD_ID}"'
+                sh 'echo " ${env.STAGE_NAME}"'
+            }
+            
+        } 
+        }
+
+      }
     
 }
