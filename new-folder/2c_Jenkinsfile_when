@@ -14,9 +14,9 @@ pipeline {
                 environment name: 'SDLC_ENV', value: 'dev'
             }
             steps {
-                sh echo " run the dev stages"
-                sh echo " ${env.BUILD_ID}"
-                sh echo " ${env.STAGE_NAME}"
+                 echo " run the dev stages"
+                 echo " ${env.BUILD_ID}"
+                 echo " ${env.STAGE_NAME}"
             }
             
         }
@@ -26,9 +26,9 @@ pipeline {
                     environment name: 'SDLC_ENV1', value: 'prod'
                }
                steps {
-                  sh echo " run the dev stages"
-                  sh echo " ${env.BUILD_ID}"
-                  sh echo " ${env.STAGE_NAME}"
+                   echo " run the dev stages"
+                   echo " ${env.BUILD_ID}"
+                   echo " ${env.STAGE_NAME}"
                }
             }
         stage ('build stages thired') {
@@ -36,9 +36,9 @@ pipeline {
                 environment name: 'SDLC_ENV', value: 'qa'
             }
             steps {
-                sh  echo " run the dev stages"
-                sh  echo " ${env.BUILD_ID}"
-                sh  echo " ${env.STAGE_NAME}"
+                  echo " run the dev stages"
+                  echo " ${env.BUILD_ID}"
+                  echo " ${env.STAGE_NAME}"
             }
             
         } 
