@@ -31,7 +31,7 @@ pipeline {
                   sh 'echo " ${env.STAGE_NAME}"'
                }
             }
-        stage ('build stages') {
+        stage ('build stages thired') {
             when {
                 environment name: 'SDLC_ENV', value: 'qa'
             }
