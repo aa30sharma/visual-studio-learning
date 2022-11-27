@@ -3,8 +3,11 @@ The when directive allows the Pipeline to determine whether the stage should be 
 */
 pipeline {
     agent any
+    parameter {
+            choice(name: 'CHOICE', choices: ['dev', 'qa', 'prod'], description: 'Pick something')
+    }
     environment {
-        SDLC_ENV = 'dev'
+        SDLC_ENV = '${params.CHOICE}'
     }
     stages {
         stage('Example Build') {
