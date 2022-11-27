@@ -14,9 +14,9 @@ pipeline {
         }
         stage ('test') {
             steps {
-                sh 'hello'
+                sh 'printennv'
                 when {
-                    environment name: 'SDLC_ENV', value: 'dev'
+                    jumbo: 'SDLC_ENV', value: 'dev'
                 }
             }
         }
