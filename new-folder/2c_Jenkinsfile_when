@@ -13,11 +13,11 @@ pipeline {
             }
         }
         stage ('test') {
-            steps {
-                sh 'printenv'
-                when {
+            when {
                     environment name: 'SDLC_ENV', value: 'dev'
                 }
+                 steps {
+                sh 'printenv'
             }
         }
     }
